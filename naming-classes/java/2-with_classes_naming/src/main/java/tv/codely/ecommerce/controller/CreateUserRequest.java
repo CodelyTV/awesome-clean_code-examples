@@ -1,6 +1,6 @@
 package tv.codely.ecommerce.controller;
 
-public record UserRequest(
+public record CreateUserRequest(
     String name,
     String surname,
     String email,

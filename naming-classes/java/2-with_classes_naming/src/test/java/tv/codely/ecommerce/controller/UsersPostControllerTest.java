@@ -14,24 +14,24 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class UsersControllerTest {
+public class UsersPostControllerTest {
     @Mock
     private UserRepository userRepository;
     @Mock
     private PasswordHasher passwordHasher;
-    private UsersController usersController;
+    private UsersPostController usersPostController;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        usersController = new UsersController(userRepository, passwordHasher);
+        usersPostController = new UsersPostController(userRepository, passwordHasher);
     }
 
     @Test
     void should_return_400_with_an_invalid_request() {
-        UserRequest invalidRequest = new UserRequest("", "Ferrer", "javier@example.com", "password", "password");
+        CreateUserRequest invalidRequest = new CreateUserRequest("", "Ferrer", "javier@example.com", "password", "password");
 
-        Response response = usersController.post(invalidRequest);
+        Response response = usersPostController.post(invalidRequest);
 
         assertEquals(400, response.code());
         assertEquals("Invalid Request", response.message());
@@ -39,11 +39,11 @@ public class UsersControllerTest {
 
     @Test
     void should_return_409_if_the_user_already_exists() {
-        UserRequest existingUserRequest = new UserRequest("Javier", "Ferrer", "javier@example.com", "password123", "password123");
+        CreateUserRequest existingUserRequest = new CreateUserRequest("Javier", "Ferrer", "javier@example.com", "password123", "password123");
 
         when(userRepository.byEmail("javier@example.com")).thenReturn(new User(1, "Javier", "Ferrer", "javier@example.com", "hashedPassword"));
 
-        Response response = usersController.post(existingUserRequest);
+        Response response = usersPostController.post(existingUserRequest);
 
         assertEquals(409, response.code());
         assertEquals("User already exists", response.message());
@@ -51,13 +51,13 @@ public class UsersControllerTest {
 
     @Test
     void should_create_a_valid_user() {
-        UserRequest validRequest = new UserRequest("Javier", "Ferrer", "javier@example.com", "password123", "password123");
+        CreateUserRequest validRequest = new CreateUserRequest("Javier", "Ferrer", "javier@example.com", "password123", "password123");
 
         when(userRepository.byEmail("javier@example.com")).thenReturn(null);
         when(passwordHasher.hash("password123")).thenReturn("hashedPassword");
         when(userRepository.save(any(User.class))).thenReturn(1);
 
-        Response response = usersController.post(validRequest);
+        Response response = usersPostController.post(validRequest);
 
         assertEquals(201, response.code());
         assertEquals("""
