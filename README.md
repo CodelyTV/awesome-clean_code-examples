@@ -26,6 +26,8 @@
 ## 🤯 Other awesome examples
 
 * [Awesome TypeScript Examples](https://github.com/CodelyTV/awesome-typescript-examples)
+* [Awesome Bash Challenges](https://github.com/CodelyTV/awesome-bash-challenges)
+* [Awesome Visual Studio Code Settings](https://github.com/CodelyTV/awesome-vscode-settings)
 
 ## ☝️ Learning resources
 
