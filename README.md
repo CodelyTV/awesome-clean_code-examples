@@ -9,7 +9,7 @@
 </p>
 
 <h1 align="center">
-    {COURSE_EMOJI} {COURSE_NAME_IN_ENGLISH}
+    🧽 Awesome Clean Code Examples
 </h1>
 
 <p align="center">
@@ -18,10 +18,15 @@
 </p>
 
 <p align="center">
-    {COURSE_SUMMARY_IN_ENGLISH}
+    Awesome Clean Code examples with complete examples in different programming languages.
 </p>
 
-<p align="center">
-  <a href="https://github.com/CodelyTV/{REPOSITORY_NAME}/stargazers">Stars are welcome 😊</a><br><br>
-  Course (Spanish): <a href="{COURSE_URL}">{COURSE_NAME_IN_SPANISH}</a>
-</p>
+# 🔀 Related utilities and resources
+
+## 🤯 Other awesome examples
+
+* [Awesome TypeScript Examples](https://github.com/CodelyTV/awesome-typescript-examples)
+
+## ☝️ Learning resources
+
+* [🧽 Clean Code](https://pro.codely.com) (Spanish - Course)
