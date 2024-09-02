@@ -1,10 +1,12 @@
+type ShoppingCartItem = {
+	id: number;
+	name: string;
+	quantity: number;
+	price: number;
+};
+
 export class ShoppingCart {
-	private items: Array<{
-		id: number;
-		name: string;
-		quantity: number;
-		price: number;
-	}> = [];
+	private items: Array<ShoppingCartItem> = [];
 
 	add(
 		id: number,
@@ -12,13 +14,21 @@ export class ShoppingCart {
 		quantity: number = 1,
 		price: number = 0,
 	): void {
-		const existingItem = this.items.find((item) => item.id === id);
+		const existingItem = this.get(id);
 
 		if (existingItem) {
 			existingItem.quantity += quantity;
 		} else {
 			this.items.push({ id, name, quantity, price });
 		}
+	}
+
+	exists(id: number): boolean {
+		return this.items.find((item) => item.id === id) !== undefined;
+	}
+
+	private get(id: number): ShoppingCartItem | undefined {
+		return this.items.find((item) => item.id === id);
 	}
 
 	remove(id: number, quantity: number = 1): void {

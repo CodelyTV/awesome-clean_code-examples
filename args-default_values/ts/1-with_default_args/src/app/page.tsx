@@ -1,7 +1,8 @@
 "use client";
-import { Minus, Plus } from "lucide-react";
+import { Info, Minus, Plus } from "lucide-react";
 import { useState } from "react";
 
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -76,6 +77,16 @@ export default function Component() {
 		updateQuantity(product.id, 1);
 	};
 
+	const addGiftProduct = (): void => {
+		const giftProductId = 999;
+
+		if (!cart.exists(giftProductId)) {
+			cart.add(giftProductId, "Código de Javi firmado con gpg", 1);
+
+			updateQuantity(giftProductId, 1);
+		}
+	};
+
 	const updateCartItemQuantity = (id: number, change: number) => {
 		cart.add(id, "", change); // Add or remove items
 		setQuantities((prev) => ({
@@ -90,6 +101,20 @@ export default function Component() {
 		<div className="flex min-h-screen bg-gray-900 text-gray-100 p-5">
 			<main className="flex-grow p-6 pr-[384px]">
 				<h1 className="text-2xl font-bold mb-6">codely.shop</h1>
+				<Alert variant="default" className="mb-6">
+					<Info className="h-4 w-4" style={{ marginTop: "-3px" }} />
+					<AlertDescription>
+						Tenemos una sorpresa para ti 👀{" "}
+						<a
+							href="#"
+							className="underline"
+							onClick={() => addGiftProduct()}
+						>
+							¡Un producto de regalo para ti!
+						</a>
+						.
+					</AlertDescription>
+				</Alert>
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{products.map((product) => (
 						<div
