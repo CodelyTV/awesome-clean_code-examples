@@ -25,4 +25,10 @@ export default [
 			},
 		},
 	},
+	{
+		files: ["**/*.tsx"],
+		rules: {
+			"import/no-unresolved": "off",
+		},
+	},
 ];
