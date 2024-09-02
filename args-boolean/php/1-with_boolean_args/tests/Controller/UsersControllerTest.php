@@ -46,11 +46,13 @@ final class UsersControllerTest extends TestCase
 
 			if ($validUser['isAdmin']) {
 				$admin = new Admin($validUser['username'], $validUser['adminCode']);
+
 				$adminRepository->expects($this->once())
 					->method('save')
 					->with($admin);
 			} else {
 				$user = new User($validUser['username'], $validUser['email'], $validUser['name'], $validUser['surname']);
+
 				$userRepository->expects($this->once())
 					->method('save')
 					->with($user);
