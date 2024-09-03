@@ -15,9 +15,7 @@ public class UsersController {
 
     public Response post(UserRequest userRequest) {
         try {
-            if (userRequest.name() == null || userRequest.name().trim().isEmpty() || userRequest.surname() == null || userRequest.surname().trim().isEmpty()
-                || userRequest.email() == null || !userRequest.email().contains("@") || userRequest.password() == null || userRequest.password().length() < 8
-                || !userRequest.password().equals(userRequest.passwordConfirmation())) {
+            if (!isValidRequest(userRequest)) {
                 throw new RuntimeException("Invalid Request");
             }
 
@@ -41,5 +39,30 @@ public class UsersController {
 
             return new Response(500, "Internal Server Error");
         }
+    }
+
+    private boolean isValidRequest(UserRequest userRequest) {
+        return isValidName(userRequest) &&
+            isValidSurname(userRequest) &&
+            isValidEmail(userRequest) &&
+            isValidPassword(userRequest);
+    }
+
+    private boolean isValidName(UserRequest userRequest) {
+        return userRequest.name() != null && !userRequest.name().trim().isEmpty();
+    }
+
+    private boolean isValidSurname(UserRequest userRequest) {
+        return userRequest.surname() != null && !userRequest.surname().trim().isEmpty();
+    }
+
+    private boolean isValidEmail(UserRequest userRequest) {
+        return userRequest.email() != null && userRequest.email().contains("@");
+    }
+
+    private boolean isValidPassword(UserRequest userRequest) {
+        return userRequest.password() != null &&
+            userRequest.password().length() >= 8 &&
+            userRequest.password().equals(userRequest.passwordConfirmation());
     }
 }
