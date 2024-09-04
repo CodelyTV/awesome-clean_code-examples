@@ -1,5 +1,6 @@
 "use client";
 import { Info, Minus, Plus } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -123,9 +124,11 @@ export default function Component() {
 							key={product.id}
 							className="bg-gray-800 p-4 rounded-lg shadow"
 						>
-							<img
+							<Image
 								src={product.image}
 								alt={product.name}
+								width={600}
+								height={600}
 								className="w-full h-48 object-cover mb-4 rounded"
 							/>
 							<h2 className="text-lg font-semibold">

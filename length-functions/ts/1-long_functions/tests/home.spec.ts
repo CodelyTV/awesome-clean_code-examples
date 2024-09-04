@@ -61,7 +61,7 @@ async function thenTheCartShouldContainTotalElements(
 async function thenTheCartShouldContain(
 	page: Page,
 	expectedProductName: string,
-) {
+): Promise<void> {
 	expect(
 		await page
 			.locator(".flex.justify-between.items-center.mb-4 >> h3")
@@ -73,7 +73,7 @@ async function thenTheCartShouldContain(
 async function thenTheTotalPriceShouldBe(
 	page: Page,
 	expectedTotalPrice: string,
-) {
+): Promise<void> {
 	expect(
 		await page
 			.locator("text=Total:")
