@@ -215,10 +215,31 @@ export default function Component() {
 						))
 					)}
 				</ScrollArea>
-				<div className="pt-6 border-t border-gray-700 totals">
+				<div
+					className="pt-6 border-t border-gray-700 totals"
+					style={{ marginTop: "-100px" }}
+				>
+					{cart.hasDiscounts() &&
+						cart.getDiscounts().map((discount) => (
+							<div className="mb-4">
+								<Alert variant="default">
+									Descuento: {discount.name}
+								</Alert>
+							</div>
+						))}
+					<div className="flex justify-between items-center mb-4">
+						<span>Subtotal:</span>
+						<span>${cart.subtotalPrice().toFixed(2)}</span>
+					</div>
+					{cart.hasDiscounts() && (
+						<div className="flex justify-between items-center mb-4">
+							<span>Discounts:</span>
+							<span>-${cart.discountsPrice().toFixed(2)}</span>
+						</div>
+					)}
 					<div className="flex justify-between items-center mb-4">
 						<span className="font-semibold">Total:</span>
-						<span>${cart.totalPrice()}</span>
+						<span>${cart.totalPrice().toFixed(2)}</span>
 					</div>
 					<Button className="w-full">Comprar</Button>
 				</div>
