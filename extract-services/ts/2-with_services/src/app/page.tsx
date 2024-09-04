@@ -3,11 +3,13 @@ import { Info, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { ShoppingCart } from "@/core/ShoppingCart";
+import { Alert, AlertDescription } from "../components/ui/alert";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { ScrollArea } from "../components/ui/scroll-area";
+import { ShoppingCart } from "../core/ShoppingCart";
+import { ShoppingCartDiscountsCalculator } from "../core/ShoppingCartDiscountsCalculator";
+import { ShoppingCartPriceCalculator } from "../core/ShoppingCartPriceCalculator";
 
 export type Product = {
 	id: number;
@@ -18,7 +20,12 @@ export type Product = {
 
 export default function Component() {
 	const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
-	const [cart] = useState(new ShoppingCart());
+	const [cart] = useState(
+		new ShoppingCart(
+			new ShoppingCartDiscountsCalculator(),
+			new ShoppingCartPriceCalculator(),
+		),
+	);
 
 	const products: Product[] = [
 		{

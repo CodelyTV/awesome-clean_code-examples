@@ -1,8 +1,8 @@
 import { Discount } from "./discounts/Discount";
-import { MoreThanFiveHundrerUsdDiscount } from "./discounts/MoreThanFiveHundrerUsdDiscount";
-import { ThreeDifferentProductsDiscount } from "./discounts/ThreeDifferentProductsDiscount";
+import { ShoppingCartDiscountsCalculator } from "./ShoppingCartDiscountsCalculator";
+import { ShoppingCartPriceCalculator } from "./ShoppingCartPriceCalculator";
 
-type ShoppingCartProduct = {
+export type ShoppingCartProduct = {
 	id: number;
 	name: string;
 	quantity: number;
@@ -12,6 +12,11 @@ type ShoppingCartProduct = {
 export class ShoppingCart {
 	private products: ShoppingCartProduct[] = [];
 	private discounts: Discount[] = [];
+
+	constructor(
+		private readonly discountsCalculator: ShoppingCartDiscountsCalculator,
+		private readonly priceCalculator: ShoppingCartPriceCalculator,
+	) {}
 
 	add(id: number, name: string, quantity: number, price: number): void {
 		this.products.push({ id, name, quantity, price });
@@ -48,24 +53,14 @@ export class ShoppingCart {
 	}
 
 	subtotalPrice(): number {
-		return this.products.reduce(
-			(sum, item) => sum + item.price * item.quantity,
-			0,
-		);
+		return this.priceCalculator.calculateSubtotal(this.products);
 	}
 
 	totalPrice(): number {
-		const subtotal = this.subtotalPrice();
-
-		const totalDiscount = this.discounts.reduce((sum, discount) => {
-			if (discount.isPercentage()) {
-				return sum + (discount.value / 100) * subtotal;
-			}
-
-			return sum + discount.value;
-		}, 0);
-
-		return subtotal - totalDiscount;
+		return this.priceCalculator.calculateTotal(
+			this.products,
+			this.discounts,
+		);
 	}
 
 	hasDiscounts(): boolean {
@@ -95,16 +90,9 @@ export class ShoppingCart {
 	}
 
 	private recalculateDiscounts(): void {
-		const discounts: Discount[] = [];
-
-		if (this.products.length > 2) {
-			discounts.push(new ThreeDifferentProductsDiscount());
-		}
-
-		if (this.subtotalPrice() > 500) {
-			discounts.push(new MoreThanFiveHundrerUsdDiscount());
-		}
-
-		this.discounts = discounts;
+		this.discounts = this.discountsCalculator.calculate(
+			this.products.length,
+			this.subtotalPrice(),
+		);
 	}
 }
