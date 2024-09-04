@@ -16,7 +16,7 @@ export type Product = {
 };
 
 export default function Component() {
-	const [quantities, setQuantities] = useState({});
+	const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
 	const [cart] = useState(new ShoppingCart());
 
 	const products: Product[] = [
@@ -99,6 +99,8 @@ export default function Component() {
 		}));
 	};
 
+	// @ts-ignore
+	// @ts-ignore
 	return (
 		<div className="flex min-h-screen bg-gray-900 text-gray-100 p-5">
 			<main className="flex-grow p-6 pr-[384px]">
@@ -117,7 +119,7 @@ export default function Component() {
 						.
 					</AlertDescription>
 				</Alert>
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 grid-products">
 					{products.map((product) => (
 						<div
 							key={product.id}
@@ -138,7 +140,7 @@ export default function Component() {
 								<Input
 									type="number"
 									min="1"
-									value={quantities[product.id] || 1}
+									value={quantities[product.id] ?? 1}
 									onChange={(e) =>
 										updateQuantity(
 											product.id,
@@ -163,7 +165,7 @@ export default function Component() {
 
 			<aside className="fixed top-0 right-0 w-96 h-full bg-gray-800 p-6 overflow-y-auto border-l border-gray-700">
 				<h2 className="text-xl font-bold mb-6">Carrito</h2>
-				<ScrollArea className="h-[calc(100vh-200px)]">
+				<ScrollArea className="h-[calc(100vh-200px)] cart">
 					{cart.isEmpty() ? (
 						<p>Tu carrito está vacío.</p>
 					) : (
@@ -212,7 +214,7 @@ export default function Component() {
 						))
 					)}
 				</ScrollArea>
-				<div className="pt-6 border-t border-gray-700">
+				<div className="pt-6 border-t border-gray-700 totals">
 					<div className="flex justify-between items-center mb-4">
 						<span className="font-semibold">Total:</span>
 						<span>${cart.totalPrice()}</span>
