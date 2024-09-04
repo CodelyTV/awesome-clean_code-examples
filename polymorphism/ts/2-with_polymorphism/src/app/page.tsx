@@ -223,7 +223,7 @@ export default function Component() {
 						cart.getDiscounts().map((discount) => (
 							<div className="mb-4">
 								<Alert variant="default">
-									Descuento: {discount.name}
+									Descuento: {discount.id}
 								</Alert>
 							</div>
 						))}
