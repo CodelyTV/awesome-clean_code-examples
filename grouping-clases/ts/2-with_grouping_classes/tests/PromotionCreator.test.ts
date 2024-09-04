@@ -1,3 +1,4 @@
+import { DateRange } from "../src/DateRange";
 import { Promotion } from "../src/Promotion";
 import { PromotionCreator } from "../src/PromotionCreator";
 import { PromotionRepository } from "../src/PromotionRepository";
@@ -14,8 +15,7 @@ describe("PromotionCreator should", () => {
 		const discountPercentage = 20;
 
 		const expectedPromotion = new Promotion(
-			startDate,
-			endDate,
+			new DateRange(startDate, endDate),
 			discountPercentage,
 		);
 

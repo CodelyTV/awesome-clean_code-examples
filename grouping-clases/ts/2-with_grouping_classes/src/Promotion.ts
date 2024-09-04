@@ -1,7 +1,8 @@
+import { DateRange } from "./DateRange";
+
 export class Promotion {
 	constructor(
-		readonly startDate: Date,
-		endDate: Date,
+		readonly dateRange: DateRange,
 		discountPercentage: number,
 	) {}
 }

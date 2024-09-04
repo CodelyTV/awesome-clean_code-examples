@@ -1,3 +1,4 @@
+import { DateRange } from "./DateRange";
 import { Promotion } from "./Promotion";
 import { PromotionRepository } from "./PromotionRepository";
 
@@ -9,11 +10,10 @@ export class PromotionCreator {
 		endDate: Date,
 		discountPercentage: number,
 	): Promise<void> {
-		if (startDate >= endDate) {
-			throw new Error("End date must be after start date");
-		}
-
-		const promotion = new Promotion(startDate, endDate, discountPercentage);
+		const promotion = new Promotion(
+			new DateRange(startDate, endDate),
+			discountPercentage,
+		);
 
 		await this.repository.save(promotion);
 	}
