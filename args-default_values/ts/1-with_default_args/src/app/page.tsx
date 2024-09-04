@@ -65,37 +65,39 @@ export default function Component() {
 		}));
 	};
 
-	const addToCartFromGrid = (product: Product): void => {
-		const quantity = quantities[product.id] || 1;
-		if (quantity === 0) {
-			return;
+	const giftProductId = 999;
+
+	const addGridProductToCart = (product: Product): void => {
+		const quantity = quantities[product.id] ?? 1;
+
+		const existingProduct = cart.search(product.id);
+
+		if (existingProduct === null) {
+			cart.add(product.id, product.name, quantity, product.price);
+		} else {
+			cart.changeQuantity(product.id, quantity);
 		}
 
-		cart.add(product.id, product.name, quantity, product.price);
-
-		// Reset quantity to 1 after adding to cart
 		updateQuantity(product.id, 1);
 	};
 
-	const addGiftProduct = (): void => {
-		const giftProductId = 999;
+	const addGiftProductToCart = (): void => {
+		const product = cart.search(giftProductId);
 
-		if (!cart.exists(giftProductId)) {
-			cart.add(giftProductId, "Código de Javi firmado con gpg", 1);
-
+		if (!product) {
+			cart.add(giftProductId, "Código de Javi firmado con gpg");
 			updateQuantity(giftProductId, 1);
 		}
 	};
 
-	const updateCartItemQuantity = (id: number, change: number) => {
-		cart.add(id, "", change); // Add or remove items
+	const updateCartProductQuantity = (id: number, change: number) => {
+		cart.changeQuantity(id, change);
+
 		setQuantities((prev) => ({
 			...prev,
-			[id]: cart.getItems().find((item) => item.id === id)?.quantity || 1,
+			[id]: cart.search(id)?.quantity ?? 1,
 		}));
 	};
-
-	const total = cart.getTotal();
 
 	return (
 		<div className="flex min-h-screen bg-gray-900 text-gray-100 p-5">
@@ -108,7 +110,7 @@ export default function Component() {
 						<a
 							href="#"
 							className="underline"
-							onClick={() => addGiftProduct()}
+							onClick={() => addGiftProductToCart()}
 						>
 							¡Un producto de regalo para ti!
 						</a>
@@ -147,7 +149,9 @@ export default function Component() {
 								/>
 								<Button
 									className="flex-grow"
-									onClick={() => addToCartFromGrid(product)}
+									onClick={() =>
+										addGridProductToCart(product)
+									}
 								>
 									Añadir al carrito
 								</Button>
@@ -160,39 +164,45 @@ export default function Component() {
 			<aside className="fixed top-0 right-0 w-96 h-full bg-gray-800 p-6 overflow-y-auto border-l border-gray-700">
 				<h2 className="text-xl font-bold mb-6">Carrito</h2>
 				<ScrollArea className="h-[calc(100vh-200px)]">
-					{cart.getItems().length === 0 ? (
+					{cart.isEmpty() ? (
 						<p>Tu carrito está vacío.</p>
 					) : (
-						cart.getItems().map((item) => (
+						cart.searchAll().map((product) => (
 							<div
-								key={item.id}
+								key={product.id}
 								className="flex justify-between items-center mb-4"
 							>
 								<div>
 									<h3 className="font-semibold">
-										{item.name}
+										{product.name}
 									</h3>
 									<p className="text-sm text-gray-400">
-										${item.price.toFixed(2)} x{" "}
-										{item.quantity}
+										${product.price.toFixed(2)} x{" "}
+										{product.quantity}
 									</p>
 								</div>
 								<div className="flex items-center">
 									<Button
 										size="icon"
 										onClick={() =>
-											updateCartItemQuantity(item.id, -1)
+											updateCartProductQuantity(
+												product.id,
+												-1,
+											)
 										}
 									>
 										<Minus className="h-4 w-4" />
 									</Button>
 									<span className="mx-2">
-										{item.quantity}
+										{product.quantity}
 									</span>
 									<Button
 										size="icon"
 										onClick={() =>
-											updateCartItemQuantity(item.id, 1)
+											updateCartProductQuantity(
+												product.id,
+												1,
+											)
 										}
 									>
 										<Plus className="h-4 w-4" />
@@ -205,7 +215,7 @@ export default function Component() {
 				<div className="pt-6 border-t border-gray-700">
 					<div className="flex justify-between items-center mb-4">
 						<span className="font-semibold">Total:</span>
-						<span>${total.toFixed(2)}</span>
+						<span>${cart.totalPrice()}</span>
 					</div>
 					<Button className="w-full">Comprar</Button>
 				</div>
