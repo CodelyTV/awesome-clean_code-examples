@@ -9,7 +9,7 @@ export class ShoppingCart {
 	private products: ShoppingCartProduct[] = [];
 
 	add(id: number, name: string, quantity: number, price: number): void {
-		this.products.push({ id, name, quantity, price });
+		this.products.push({id, name, quantity, price});
 	}
 
 	searchAll(): Array<ShoppingCartProduct> {
@@ -20,30 +20,25 @@ export class ShoppingCart {
 		return this.products.find((item) => item.id === id) ?? null;
 	}
 
-	changeQuantity(id: number, quantityChange: number): void {
-		const product = this.search(id);
-
-		if (product === null) {
-			return;
-		}
-
-		const newQuantity = Math.max(0, product.quantity + quantityChange);
-
-		if (newQuantity === 0) {
-			this.delete(product.id);
-
-			return;
-		}
-
-		product.quantity = newQuantity;
-	}
-
-	delete(id: number): void {
+	private delete(id: number): void {
 		const existingItem = this.products.find((item) => item.id === id);
 
 		if (existingItem) {
 			this.products = this.products.filter((item) => item.id !== id);
 		}
+	}
+
+	changeQuantity(id: number, quantityChange: number): void {
+		const product = this.search(id);
+		if (product === null) {
+			return;
+		}
+		const newQuantity = Math.max(0, product.quantity + quantityChange);
+		if (newQuantity === 0) {
+			this.delete(product.id);
+			return;
+		}
+		product.quantity = newQuantity;
 	}
 
 	totalPrice(): string {
