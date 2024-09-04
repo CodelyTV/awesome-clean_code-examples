@@ -11,10 +11,10 @@ test.describe("Home page should", () => {
 		await thenTheTotalPriceShouldBe(page, "$129.99");
 	});
 
-	test("add a free product to the cart", async ({ page }) => {
+	test("add a gift product to the cart", async ({ page }) => {
 		await givenTheHomePageIsLoaded(page);
 
-		await whenClickToFreeProductLink(page);
+		await whenClickToGiftProductLink(page);
 
 		await thenTheCartShouldContainTotalElements(page, 1);
 		await thenTheCartShouldContain(page, "Código de Javi firmado con gpg");
@@ -43,7 +43,7 @@ async function whenClickToAddProductToCart(
 	await page.click(`text=Añadir al carrito >> nth=${productNumber - 1}`);
 }
 
-async function whenClickToFreeProductLink(page: Page): Promise<void> {
+async function whenClickToGiftProductLink(page: Page): Promise<void> {
 	await page.click(`text=Regalo para ti`);
 }
 

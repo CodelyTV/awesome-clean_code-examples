@@ -8,12 +8,7 @@ type ShoppingCartProduct = {
 export class ShoppingCart {
 	private products: ShoppingCartProduct[] = [];
 
-	add(
-		id: number,
-		name: string = "",
-		quantity: number = 1,
-		price: number = 0,
-	): void {
+	add(id: number, name: string, quantity: number, price: number): void {
 		this.products.push({ id, name, quantity, price });
 	}
 

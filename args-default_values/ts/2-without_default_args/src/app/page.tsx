@@ -85,7 +85,7 @@ export default function Component() {
 		const product = cart.search(giftProductId);
 
 		if (!product) {
-			cart.add(giftProductId, "Código de Javi firmado con gpg");
+			cart.add(giftProductId, "Código de Javi firmado con gpg", 1, 0);
 			updateQuantity(giftProductId, 1);
 		}
 	};
@@ -99,8 +99,6 @@ export default function Component() {
 		}));
 	};
 
-	// @ts-ignore
-	// @ts-ignore
 	return (
 		<div className="flex min-h-screen bg-gray-900 text-gray-100 p-5">
 			<main className="flex-grow p-6 pr-[384px]">
