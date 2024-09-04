@@ -107,20 +107,40 @@ export default function Component() {
 					<Info className="h-4 w-4" style={{ marginTop: "-3px" }} />
 					<AlertDescription>
 						Tenemos una sorpresa para ti 👀{" "}
-						<a href="#" className="underline" onClick={() => addGiftProductToCart()}>
+						<a
+							href="#"
+							className="underline"
+							onClick={() => addGiftProductToCart()}
+						>
 							¡Un producto de regalo para ti!
 						</a>
 						.
 					</AlertDescription>
 				</Alert>
+
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 grid-products">
 					{products.map((product) => (
-						<div key={product.id} className="bg-gray-800 p-4 rounded-lg shadow">
-							<img src={product.image} alt={product.name} className="w-full h-48 object-cover mb-4 rounded"/>
-							<h2 className="text-lg font-semibold">{product.name}</h2>
-							<p className="text-gray-400">${product.price.toFixed(2)}</p>
+						<div
+							key={product.id}
+							className="bg-gray-800 p-4 rounded-lg shadow"
+						>
+							<img
+								src={product.image}
+								alt={product.name}
+								className="w-full h-48 object-cover mb-4 rounded"
+							/>
+							<h2 className="text-lg font-semibold">
+								{product.name}
+							</h2>
+							<p className="text-gray-400">
+								${product.price.toFixed(2)}
+							</p>
 							<div className="mt-4 flex items-center justify-between">
-								<Input type="number" min="1" value={quantities[product.id] ?? 1} onChange={(e) =>
+								<Input
+									type="number"
+									min="1"
+									value={quantities[product.id] ?? 1}
+									onChange={(e) =>
 										updateQuantity(
 											product.id,
 											parseInt(e.target.value, 10),
@@ -128,7 +148,9 @@ export default function Component() {
 									}
 									className="w-20 mr-2"
 								/>
-								<Button className="flex-grow" onClick={() =>
+								<Button
+									className="flex-grow"
+									onClick={() =>
 										addGridProductToCart(product)
 									}
 								>
@@ -147,13 +169,24 @@ export default function Component() {
 						<p>Tu carrito está vacío.</p>
 					) : (
 						cart.searchAll().map((product) => (
-							<div key={product.id} className="flex justify-between items-center mb-4">
+							<div
+								key={product.id}
+								className="flex justify-between items-center mb-4"
+							>
 								<div>
-									<h3 className="font-semibold">{product.name}</h3>
-									<p className="text-sm text-gray-400">${product.price.toFixed(2)} x{" "}{product.quantity}</p>
+									<h3 className="font-semibold">
+										{product.name}
+									</h3>
+									<p className="text-sm text-gray-400">
+										${product.price.toFixed(2)} x{" "}
+										{product.quantity}
+									</p>
 								</div>
 								<div className="flex items-center">
-									<Button size="icon" onClick={() => updateCartProductQuantity(
+									<Button
+										size="icon"
+										onClick={() =>
+											updateCartProductQuantity(
 												product.id,
 												-1,
 											)
@@ -161,8 +194,13 @@ export default function Component() {
 									>
 										<Minus className="h-4 w-4" />
 									</Button>
-									<span className="mx-2">{product.quantity}</span>
-									<Button size="icon" onClick={() => updateCartProductQuantity(
+									<span className="mx-2">
+										{product.quantity}
+									</span>
+									<Button
+										size="icon"
+										onClick={() =>
+											updateCartProductQuantity(
 												product.id,
 												1,
 											)
